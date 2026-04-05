@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: tis_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tis_db
+      POSTGRES_USER: tis_user
+      POSTGRES_PASSWORD: tis_password
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: tis_redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: tis_api
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://tis_user:tis_password@postgres:5432/tis_db
+      REDIS_URL: redis://redis:6379
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: tis_admin
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./admin:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+  redis_data:

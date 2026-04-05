@@ -1,0 +1,25 @@
+{
+  "name": "tis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tourism Intelligence System — cross-platform travel route POI discovery app",
+  "workspaces": [
+    "api",
+    "app",
+    "admin",
+    "shared"
+  ],
+  "scripts": {
+    "api": "yarn workspace @tis/api dev",
+    "app": "yarn workspace @tis/app start",
+    "admin": "yarn workspace @tis/admin dev",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "db:migrate": "yarn workspace @tis/api db:migrate",
+    "db:seed": "yarn workspace @tis/api db:seed"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
+  }
+}

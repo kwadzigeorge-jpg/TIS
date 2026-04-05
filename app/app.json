@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "TIS",
+    "slug": "tis-tourism",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a6b3c"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a6b3c"
+      },
+      "package": "com.tis.tourism",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE"
+      ]
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tis.tourism",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "TIS uses your location to show nearby attractions.",
+        "NSLocationAlwaysUsageDescription": "TIS uses your background location to notify you of nearby attractions while traveling."
+      }
+    },
+    "plugins": [
+      ["expo-location", {
+        "locationAlwaysAndWhenInUsePermission": "Allow TIS to use your location to discover nearby tourist attractions."
+      }],
+      "expo-task-manager"
+    ],
+    "extra": {
+      "apiBaseUrl": "http://localhost:4000/v1"
+    }
+  }
+}
