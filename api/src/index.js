@@ -13,6 +13,7 @@ const userRoutes = require('./routes/users');
 const notificationRoutes = require('./routes/notifications');
 const articleRoutes = require('./routes/articles');
 const adminRoutes = require('./routes/admin');
+const routeRoutes = require('./routes/routes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -20,6 +21,12 @@ const PORT = process.env.PORT || 4000;
 // Security & middleware
 app.use(helmet());
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
+
+// Allow localtunnel through its interstitial
+app.use((req, res, next) => {
+  res.setHeader('bypass-tunnel-reminder', 'true');
+  next();
+});
 app.use(compression());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
@@ -44,6 +51,7 @@ app.use('/v1/users', userRoutes);
 app.use('/v1/notifications', notificationRoutes);
 app.use('/v1/articles', articleRoutes);
 app.use('/v1/admin', adminRoutes);
+app.use('/v1/routes', routeRoutes);
 
 // 404
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));

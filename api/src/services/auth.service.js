@@ -64,4 +64,17 @@ async function refreshTokens(refreshToken) {
   return signTokens(rows[0]);
 }
 
-module.exports = { register, login, googleAuth, refreshTokens };
+async function changePassword(userId, currentPassword, newPassword) {
+  const { rows } = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+  const user = rows[0];
+  if (!user) throw Object.assign(new Error('User not found'), { status: 404 });
+  if (user.auth_provider !== 'email') throw Object.assign(new Error('Cannot change password for social login accounts'), { status: 400 });
+
+  const valid = await bcrypt.compare(currentPassword, user.password_hash);
+  if (!valid) throw Object.assign(new Error('Current password is incorrect'), { status: 401 });
+
+  const password_hash = await bcrypt.hash(newPassword, 12);
+  await db.query('UPDATE users SET password_hash = $1 WHERE id = $2', [password_hash, userId]);
+}
+
+module.exports = { register, login, googleAuth, refreshTokens, changePassword };

@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, TextInput, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
 import { usePOIStore } from '../store/poiStore';
 import POIBottomSheet from '../components/POIBottomSheet';
 import CategoryFilter from '../components/CategoryFilter';
-
-const GHANA_REGION = { latitude: 7.9465, longitude: -1.0232, latitudeDelta: 4, longitudeDelta: 4 };
+import MapboxMap from '../components/MapboxMap';
 
 export default function HomeScreen({ navigation }) {
-  const mapRef = useRef(null);
   const [userLocation, setUserLocation] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const { pois, isLoading, fetchNearby, setActivePOI } = usePOIStore();
@@ -31,25 +28,12 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={GHANA_REGION}
-        showsUserLocation
-        showsMyLocationButton
-      >
-        {pois.map((poi) => (
-          <Marker
-            key={poi.id}
-            coordinate={{ latitude: poi.lat, longitude: poi.lng }}
-            title={poi.name}
-            description={`⭐ ${poi.avg_rating} · ${poi.category_label}`}
-            onPress={() => handleMarkerPress(poi)}
-            pinColor="#1a6b3c"
-          />
-        ))}
-      </MapView>
+      <MapboxMap
+        pois={pois}
+        userLocation={userLocation}
+        onPressPOI={handleMarkerPress}
+        style={StyleSheet.absoluteFill}
+      />
 
       {/* Search bar */}
       <View style={styles.searchContainer}>
@@ -83,7 +67,6 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  map: { flex: 1 },
   searchContainer: {
     position: 'absolute',
     top: 60,

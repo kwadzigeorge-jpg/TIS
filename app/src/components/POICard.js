@@ -11,7 +11,7 @@ export default function POICard({ poi, onPress }) {
         <Text style={styles.name} numberOfLines={1}>{poi.name}</Text>
         <Text style={styles.category}>{poi.category_label ?? poi.category}</Text>
         <View style={styles.footer}>
-          <Text style={styles.rating}>⭐ {poi.avg_rating?.toFixed(1) ?? '–'}</Text>
+          <Text style={styles.rating}>⭐ {poi.avg_rating != null ? Number(poi.avg_rating).toFixed(1) : '–'}</Text>
           {poi.distance_from_route_m != null && (
             <Text style={styles.distance}>{(poi.distance_from_route_m / 1000).toFixed(1)} km</Text>
           )}

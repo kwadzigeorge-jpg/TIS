@@ -21,5 +21,14 @@
   "engines": {
     "node": ">=18.0.0",
     "yarn": ">=1.22.0"
+  },
+  "dependencies": {
+    "metro": "^0.81.5",
+    "metro-cache": "^0.81.5",
+    "metro-config": "^0.81.5",
+    "metro-core": "^0.81.5",
+    "metro-resolver": "^0.81.5",
+    "metro-runtime": "^0.81.5",
+    "metro-transform-worker": "^0.81.5"
   }
 }

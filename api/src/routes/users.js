@@ -35,8 +35,9 @@ router.patch('/me', authenticate, async (req, res, next) => {
 router.get('/me/bookmarks', authenticate, async (req, res, next) => {
   try {
     const { rows } = await db.query(`
-      SELECT p.id, p.name, p.images, p.avg_rating,
-             c.slug AS category,
+      SELECT p.id, p.name, p.description, p.images, p.avg_rating, p.city,
+             p.avg_stop_time_mins,
+             c.slug AS category, c.label AS category_label,
              ST_Y(p.location::geometry) AS lat,
              ST_X(p.location::geometry) AS lng,
              b.created_at AS bookmarked_at

@@ -33,14 +33,13 @@
         "NSLocationAlwaysUsageDescription": "TIS uses your background location to notify you of nearby attractions while traveling."
       }
     },
-    "plugins": [
-      ["expo-location", {
-        "locationAlwaysAndWhenInUsePermission": "Allow TIS to use your location to discover nearby tourist attractions."
-      }],
-      "expo-task-manager"
-    ],
+    "plugins": [],
     "extra": {
-      "apiBaseUrl": "http://localhost:4000/v1"
-    }
+      "apiBaseUrl": "https://asin-interaction-tide-vitamin.trycloudflare.com/v1",
+      "eas": {
+        "projectId": "6c2950b0-7945-4495-817b-e714a9f4efc7"
+      }
+    },
+    "owner": "ceogeorge"
   }
 }

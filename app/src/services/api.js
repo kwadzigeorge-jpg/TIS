@@ -4,7 +4,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl || 'http://localhost:4000/v1';
 
-const api = axios.create({ baseURL: BASE_URL, timeout: 15000 });
+const api = axios.create({
+  baseURL: BASE_URL,
+  timeout: 15000,
+  headers: { 'bypass-tunnel-reminder': 'true' },
+});
 
 // Auto-refresh token on 401
 api.interceptors.response.use(
